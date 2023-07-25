@@ -1,0 +1,64 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id         String           @id @default(cuid())
+  name       String?
+  email      String           @unique
+  image      String?
+  FavTour    favoritesTours[] @relation(name: "userFav")
+  ownerTours Tour[]           @relation(name: "Owner")
+
+  booekdVisits Booking[] @relation(name: "userBook")
+}
+
+model favoritesTours {
+  TourId String
+  tour   Tour   @relation(name: "favTour", fields: [TourId], references: [id])
+
+  userEmail String
+  user      User   @relation(name: "userFav", fields: [userEmail], references: [email])
+
+  @@id([TourId, userEmail])
+  @@index([TourId, userEmail])
+}
+
+model Booking {
+  id        String @default(cuid())
+  date      String
+  UserEmail String
+  user      User   @relation(name: "userBook", fields: [UserEmail], references: [email])
+
+  TourId String
+  tour   Tour   @relation(name: "tourBook", fields: [TourId], references: [id])
+
+  @@id([UserEmail, TourId])
+  @@index([UserEmail, TourId])
+}
+
+model Tour {
+  id          String @id @default(cuid())
+  title       String
+  description String
+  price       Int
+  address     String
+  city        String
+  country     String
+
+  image     String
+  userEmail String
+  owner     User     @relation(name: "Owner", fields: [userEmail], references: [email])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  booekdVisits Booking[]        @relation(name: "tourBook")
+  FavTour      favoritesTours[] @relation(name: "favTour")
+
+  @@unique(fields: [address, city, country])
+}
