@@ -25,3 +25,7 @@ export const sliderSettings = {
     },
   },
 };
+
+export const validateString = (value) => {
+  return value?.length < 3 || value === null ? "Au moins 3 carateres" : null;
+};
