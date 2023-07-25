@@ -2,6 +2,8 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { Container, Modal, Button, Group, Stepper } from "@mantine/core";
 import React, { useState } from "react";
 import { AddLocation } from "./AddLocation/AddLocation";
+import { BasicDetails } from "./BasicDetails/BasicDetails";
+import { TerminateAddTour } from "./TerminateAddTour";
 import { UploadImage } from "./UploadImage/UploadImage";
 
 export const AddTourModal = ({ OpenedAddTour, setOpenendAddTOur }) => {
@@ -44,7 +46,7 @@ export const AddTourModal = ({ OpenedAddTour, setOpenendAddTOur }) => {
               setTourDetails={setTourDetails}
             />
           </Stepper.Step>
-          <Stepper.Step label="Second step" description="Verify email">
+          <Stepper.Step label="Image" description="Ajouter une Image">
             <UploadImage
               nextStep={nextStep}
               prevStep={prevStep}
@@ -53,10 +55,22 @@ export const AddTourModal = ({ OpenedAddTour, setOpenendAddTOur }) => {
             />
           </Stepper.Step>
           <Stepper.Step label="Final step" description="Get full access">
-            Step 3 content: Get full access
+            <BasicDetails
+              nextStep={nextStep}
+              prevStep={prevStep}
+              tourDetails={tourDetails}
+              setTourDetails={setTourDetails}
+            />
           </Stepper.Step>
+
           <Stepper.Completed>
-            Completed, click back button to get to previous step
+            <TerminateAddTour
+              prevStep={prevStep}
+              tourDetails={tourDetails}
+              setTourDetails={setTourDetails}
+              setOpened={setOpenendAddTOur}
+              setActiveStep={setActive}
+            />
           </Stepper.Completed>
         </Stepper>
 

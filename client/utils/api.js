@@ -116,3 +116,21 @@ export const getAllFavories = async (email) => {
     throw e;
   }
 };
+
+export const createTour = async (data) => {
+  console.log(data);
+  try {
+    const res = await api.post(`api/tour/create`, {
+      title: data.title,
+      description: data.description,
+      price: data.price,
+      address: data.address,
+      city: data.city,
+      country: data.country,
+      image: data.image,
+      userEmail: data.userEmail,
+    });
+  } catch (error) {
+    throw error;
+  }
+};

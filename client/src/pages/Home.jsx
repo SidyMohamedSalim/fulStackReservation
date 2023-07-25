@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Companies from "../components/Companies/Companies";
 import Contact from "../components/Contact/Contact";
 
@@ -9,17 +9,24 @@ import Tours from "../components/Tours/Tours";
 import Value from "../components/Value/Value";
 
 const Home = () => {
+  const [filter, setFilter] = useState();
   return (
     <div className="App">
       <div>
         <div className="white-gradient" />
-        <Hero />
+        <Hero filter={filter} setFilter={setFilter} />
       </div>
-      <Companies />
-      <Tours />
-      <Value />
-      <Contact />
-      <GetStarted />
+      {filter ? (
+        <Tours Filter={filter} />
+      ) : (
+        <>
+          <Companies />
+          <Tours Filter={filter} />
+          <Value />
+          <Contact />
+          <GetStarted />
+        </>
+      )}
     </div>
   );
 };

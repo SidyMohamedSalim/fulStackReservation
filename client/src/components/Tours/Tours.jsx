@@ -8,7 +8,7 @@ import "swiper/css";
 import "./Tours.css";
 import { sliderSettings } from "../../utils/common";
 import useTours from "../../hooks/useTours";
-const Tours = () => {
+const Tours = ({ Filter }) => {
   const { data, isError, isLoading } = useTours();
 
   if (isError) {

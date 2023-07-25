@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import SearchInput from "../../components/SearchInput/SearchInput";
 import useTours from "../../hooks/useTours";
 import "./Tours.css";
@@ -6,6 +6,7 @@ import { PuffLoader } from "react-spinners";
 import TourCard from "../../components/TourCard/TourCard";
 const Tours = () => {
   const { data, isError, isLoading } = useTours();
+  const [filter, setFilter] = useState("");
 
   if (isError) {
     return (
@@ -32,12 +33,20 @@ const Tours = () => {
   return (
     <div className="wrapper">
       <div className="flexColCenter paddings innerWidth tours-container ">
-        <SearchInput />
+        <SearchInput filter={filter} setFilter={setFilter} />
 
         <div className="paddings flexCenter tours-container">
-          {data.tours.map((card) => (
-            <TourCard card={card} key={card.id} />
-          ))}
+          {data.tours
+            .filter(
+              (tour) =>
+                tour.title.toLowerCase().includes(filter.toLowerCase()) ||
+                tour.city.toLowerCase().includes(filter.toLowerCase()) ||
+                tour.country.toLowerCase().includes(filter.toLowerCase()) ||
+                tour.description.toLowerCase().includes(filter.toLowerCase())
+            )
+            .map((card) => (
+              <TourCard card={card} key={card.id} />
+            ))}
         </div>
       </div>
     </div>
